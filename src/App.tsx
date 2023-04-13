@@ -5,8 +5,6 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [back, setBack] = useState(false)
   const [springs, api] = useSpring(() => {
     return {
       from: {width: 80}
@@ -14,15 +12,9 @@ function App() {
   });
 
   const handleClick = () => {
-    if (!back) {
-      api.start({
-        from: {width: 80},
-        to: {width: 200}
-      })
-    } else {
-      api.resume()
-    }
-    setBack((back) => !back);
+    api.start({
+      to: {width: springs.width.get() === 80 ? 200 : 80}
+    })
   }
   
   
@@ -37,18 +29,6 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
-      <div className="">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="">
-        Click on the Vite and React logos to learn more
-      </p>
       <animated.div
        style={{
         height:80, 
