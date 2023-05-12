@@ -9,5 +9,27 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      class CustomPromise {
+        constructor() {
+
+        }
+
+        then() {
+          console.log('then');
+        }
+
+        catch() {
+          console.log('catch');
+        }
+
+        finally() {
+          console.log('finally');
+        }
+      }
+
+      const cp = new CustomPromise();
+
+    </script>
   </body>
 </html>
