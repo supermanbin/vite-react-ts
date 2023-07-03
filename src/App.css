@@ -1,0 +1,100 @@
+.post-demo-content {
+  background-color: #f4f4f6;
+  padding: 2em 2em 2em 4em;
+  margin-bottom: 2em;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.mnc-demo-container-inline {
+  display: inline-block;
+  position: relative;
+  margin-right: 60px;
+  margin-bottom: 30px;
+  margin-top: 15px;
+}
+.mnc-demo-container {
+  height: 100px;
+  width: 100px;
+}
+.mnc-demo-label {
+  position: absolute;
+  bottom: -38px;
+  color: #666;
+  font-size: 11px;
+  text-align: center;
+  width: 100%;
+}
+.mnc-demo-grid {
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.2);
+  height: 100%;
+  width: 100%;
+}
+.mnc-demo-line {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(0,0,0,0.2);
+  position: absolute;
+}
+.mnc-demo-line-vertical {
+  width: 2px;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+  position: absolute;
+}
+.mnc-demo-dot {
+  will-change: transform;
+  -webkit-animation: xAxis 2.5s infinite cubic-bezier(0.02, 0.01, 0.21, 1);
+  animation: xAxis 2.5s infinite cubic-bezier(0.02, 0.01, 0.21, 1);
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+}
+
+.mnc-demo-dot:after {
+  content: '';
+  display: block;
+  will-change: transform;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: #333;
+  -webkit-animation: yAxis 2.5s infinite cubic-bezier(0.3, 0.27, 0.07, 1.64);
+  animation: yAxis 2.5s infinite cubic-bezier(0.3, 0.27, 0.07, 1.64);
+}
+
+@keyframes yAxis {
+  50% {
+    -webkit-animation-timing-function: cubic-bezier(0.02, 0.01, 0.21, 1);
+    animation-timing-function: cubic-bezier(0.02, 0.01, 0.21, 1);
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-200px);
+  }
+}
+
+@-webkit-keyframes yAxis {
+  50% {
+    -webkit-animation-timing-function: cubic-bezier(0.02, 0.01, 0.21, 1);
+    animation-timing-function: cubic-bezier(0.02, 0.01, 0.21, 1);
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes xAxis {
+  50% {
+    -webkit-animation-timing-function: cubic-bezier(0.3, 0.27, 0.07, 1.64);
+    animation-timing-function: cubic-bezier(0.3, 0.27, 0.07, 1.64);
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+}
+
+@-webkit-keyframes xAxis {
+  50% {
+    -webkit-animation-timing-function: cubic-bezier(0.3, 0.27, 0.07, 1.64);
+    animation-timing-function: cubic-bezier(0.3, 0.27, 0.07, 1.64);
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+}
