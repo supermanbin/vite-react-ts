@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import {animated, useSpring} from '@react-spring/web'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
@@ -28,23 +26,13 @@ function App() {
   }).catch(reason => {
     console.log(reason);
   });
-  
-  
 
   return (
     <div className="container mx-auto p-5 xl:p-10 bg-white shadow-lg rounded-lg ">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <animated.div
        style={{
-        height:80, 
-        background: '#ff6d6d', 
+        height:80,
+        background: '#ff6d6d',
         ...springs
         }} onClick={handleClick}>
           {springs.width.to(x => x.toFixed(0))}
@@ -62,6 +50,9 @@ function App() {
           <option value="aa">aaaa</option>
         </select>
       </form>
+      <animated.button className="bg-slate-300 px-6 py-1 box">
+        download
+      </animated.button>
     </div>
   )
 }
