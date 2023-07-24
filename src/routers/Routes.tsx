@@ -5,7 +5,7 @@ import Login from '../pages/login/Login'
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/demo',
     element: <App />
   },
   {
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <ViewPort />
   },
   {
-    path: '/login',
+    path: '/',
     element: <Login />
   }
 ])
