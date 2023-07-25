@@ -1,20 +1,16 @@
-import {generateToken} from '../../utils/tools'
-
 export default function Login() {
 
-  const login = () => {
+  function login(e: React.MouseEvent) {
+    e.preventDefault();
     if (!localStorage.getItem('token')) {
       const randomStr = crypto.randomUUID()
-      // Math.random().toString(36).slice(-8)
-      console.log(randomStr);
-      
       localStorage.setItem('token', randomStr)
     }
   }
 
   return (
     <div className="absolute w-screen h-screen grid place-items-center px-4">
-      <form action="" className="w-full bg-white">
+      <form action="void 0" className="w-full bg-white">
         <label htmlFor="username">
           <span>username</span>
           <input type="text" id="username" />
@@ -23,7 +19,7 @@ export default function Login() {
           <span>password</span>
           <input type="password" id="password" />
         </label>
-        <button onClick={login}>Login</button>
+        <button onClick={(e) => {login(e)}}>Login</button>
       </form>
     </div>
   );
