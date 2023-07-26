@@ -15,6 +15,11 @@ export default function Login() {
   const navigate = useNavigate()
   const [loginForm, setLoginForm] = useState({username: '', password: ''});
 
+  /**
+   * 登录操作
+   * @param e 
+   * @returns 
+   */
   function login(e: React.MouseEvent) {
     e.preventDefault();
 
@@ -34,6 +39,10 @@ export default function Login() {
     navigate("/demo")
   }
 
+  function changeValueHandler(val: string) {
+    console.log(val);
+  }
+
 
   return (
     <div className="absolute w-screen h-screen grid place-items-center px-4 bg-slate-100">
@@ -43,7 +52,7 @@ export default function Login() {
           <input className={inputCls} type="text" id="username" 
           />
         </label>
-        <Input labelText='username' value='aaa' />
+        <Input labelText='username' value='aaa' onChange={(v) => {changeValueHandler(v)}} />
         <label htmlFor="password" className={labelCls}>
           <span className={inputLabel}>password</span>
           <input type='password' className={inputCls} id="password" />
