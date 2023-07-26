@@ -14,6 +14,7 @@ const inputLabel = "mb-2 block text-slate-800";
 export default function Login() {
   const navigate = useNavigate()
   const [loginForm, setLoginForm] = useState({username: '', password: ''});
+  const [username, setUserName] = useState('');
 
   /**
    * 登录操作
@@ -25,7 +26,6 @@ export default function Login() {
 
     console.log(loginForm);
     
-
     if (!loginForm?.username || !loginForm?.password) {
       alert('不能为空');
       return;
@@ -39,24 +39,17 @@ export default function Login() {
     navigate("/demo")
   }
 
-  function changeValueHandler(val: string) {
-    console.log(val);
+  function changeValueHandler(val:any) {
+    setLoginForm({...loginForm, username: val})
   }
 
 
   return (
     <div className="absolute w-screen h-screen grid place-items-center px-4 bg-slate-100">
       <form className="w-full bg-white w-2/4 p-4 rounded-md">
-        <label htmlFor="username" className={labelCls}>
-          <span className={inputLabel}>username</span>
-          <input className={inputCls} type="text" id="username" 
-          />
-        </label>
-        <Input labelText='username' value='aaa' onChange={(v) => {changeValueHandler(v)}} />
-        <label htmlFor="password" className={labelCls}>
-          <span className={inputLabel}>password</span>
-          <input type='password' className={inputCls} id="password" />
-        </label>
+        <Input className='mb-3' labelText='username' value={loginForm.username}  onChange={changeValueHandler} />
+        <Input className='mb-3' labelText='password' type='password'  onChange={(v) => {setLoginForm({...loginForm, password: v})
+        }} />
         <button className={buttonCls} onClick={(e) => {login(e)}}>Login</button>
       </form>
     </div>
