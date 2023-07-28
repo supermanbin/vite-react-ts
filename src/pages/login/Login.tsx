@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Input from '../../components/Input';
+import axios from 'axios';
 
 // input class
 const inputCls = "rounded-md border border-slate-200 focus:outline-none focus:border-indigo-500 focus:border-2 focus:ring-indigo-200 focus:ring h-9 px-3 transition w-full text-slate-800";
@@ -31,12 +32,21 @@ export default function Login() {
       return;
     }
 
-    if (!localStorage.getItem('token')) {
-      const randomStr = crypto.randomUUID()
-      localStorage.setItem('token', randomStr)
-      navigate("/demo")
-    }
-    navigate("/demo")
+    axios.post('/iam/signIn', {
+      username: loginForm.username,
+      password: loginForm.password
+    }).then((val) => {
+      console.log(val);
+    }).catch((error) => {
+      console.error(error);
+    })
+
+    // if (!localStorage.getItem('token')) {
+    //   const randomStr = crypto.randomUUID()
+    //   localStorage.setItem('token', randomStr)
+    //   navigate("/demo")
+    // }
+    // navigate("/demo")
   }
 
   function changeValueHandler(val:any) {
