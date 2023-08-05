@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {animated, useSpring} from '@react-spring/web'
 import './App.css'
+import httpClient from '../utils/httpClient';
 
 function App() {
   const [springs, api] = useSpring(() => {
@@ -9,11 +10,13 @@ function App() {
     };
   });
 
-  const handleClick = () => {
+  const  handleClick = async () => {
     api.start({
       to: {width: springs.width.get() === 80 ? 200 : 80}
     })
-
+    const c = await httpClient.get('/customer/1');
+    console.log(c);
+    
   }
 
   const p = new Promise((resolve, reject) => {
