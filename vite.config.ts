@@ -15,6 +15,10 @@ export default defineConfig({
       "/film": {
         target: "http://127.0.0.1:3000",
         changeOrigin: true,
+      },
+      "/customer": {
+        target: "http://127.0.0.1:3000",
+        changeOrigin: true,
       }
     }
   }

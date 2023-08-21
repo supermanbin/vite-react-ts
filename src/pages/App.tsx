@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import {animated, useSpring} from '@react-spring/web'
 import './App.css'
-import HttpClient from "../utils/httpClient";
-import apis from '../utils/apis'
 
 function App() {
   const [springs, api] = useSpring(() => {

@@ -9,7 +9,7 @@ const buttonCls = "rounded-md bg-blue-500 focus:ring-blue-200 focus:ring text-wh
 
 export default function Login() {
   const navigate = useNavigate()
-  const [loginForm, setLoginForm] = useState({username: '', password: ''});
+  const [loginForm, setLoginForm] = useState({username: 'Mike.Hillyer@sakilastaff.com', password: '12345'});
   const [username, setUserName] = useState('');
 
   /**
@@ -56,11 +56,21 @@ export default function Login() {
   return (
     <div className="absolute sm:w-screen h-screen grid place-items-center px-4 bg-slate-100">
       <form className="w-full bg-white w-2/4 p-4 rounded-md">
-        <Input className='mb-3' labelText='username' value={loginForm.username}  onChange={changeValueHandler} />
-        <Input className='mb-3' labelText='password' type='password'  onChange={(v) => {setLoginForm({...loginForm, password: v})
+        <Input
+          className='mb-3'
+          labelText='username'
+          defaultValue={loginForm.username}
+          onChange={changeValueHandler} />
+        <Input
+          className='mb-3'
+          labelText='password'
+          type='password'
+          defaultValue={loginForm.password}
+          onChange={(v) => {setLoginForm({...loginForm, password: v})
         }} />
         <button className={buttonCls} onClick={(e) => {login(e)}}>Login</button>
       </form>
     </div>
   );
 }
+
