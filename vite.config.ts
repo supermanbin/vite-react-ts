@@ -11,6 +11,10 @@ export default defineConfig({
       "/iam": {
         target: "http://127.0.0.1:3000",
         changeOrigin: true,
+      },
+      "/film": {
+        target: "http://127.0.0.1:3000",
+        changeOrigin: true,
       }
     }
   }

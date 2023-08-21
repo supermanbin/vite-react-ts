@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import {animated, useSpring} from '@react-spring/web'
 import './App.css'
+import HttpClient from "../utils/httpClient";
+import apis from '../utils/apis'
 
 function App() {
   const [springs, api] = useSpring(() => {
@@ -14,6 +16,14 @@ function App() {
       to: {width: springs.width.get() === 80 ? 200 : 80}
     })
 
+  }
+
+  const getOneFileHandle = () => {
+    HttpClient.get(`${apis.film}/1`).then(value => {
+      console.log(value)
+    }).catch(reason => {
+      console.log(reason)
+    })
   }
 
   const p = new Promise((resolve, reject) => {
@@ -50,7 +60,7 @@ function App() {
           <option value="aa">aaaa</option>
         </select>
       </form>
-      <animated.button className="bg-slate-300 px-6 py-1 box">
+      <animated.button className="bg-slate-300 px-6 py-1 box" onClick={getOneFileHandle}>
         download
       </animated.button>
     </div>
