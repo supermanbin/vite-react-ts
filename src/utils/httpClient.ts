@@ -1,12 +1,19 @@
 import axios from 'axios';
+import apis from './apis';
 
-HttpClient.interceptors.request.use(config => {
-    if (config.url !== apis.login || config.url !== apis.signUp && localStorage.getItem('token')) {
-        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+const HttpClient = axios.create({
+  timeout: 3000,
+});
+HttpClient.interceptors.request.use(
+  (config) => {
+    if (config.url !== apis.login || (config.url !== apis.signUp && localStorage.getItem('token'))) {
+      config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     }
-    return config
-}, error => {
-    return error.message
-})
+    return config;
+  },
+  (error) => {
+    return error.message;
+  },
+);
 
-export default HttpClient
+export default HttpClient;
