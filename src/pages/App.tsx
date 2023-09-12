@@ -1,7 +1,7 @@
+import { useState } from 'react'
 import {animated, useSpring} from '@react-spring/web'
 import './App.css'
-import apis from "../utils/apis";
-import HttpClient from "../utils/httpClient";
+import httpClient from '../utils/httpClient';
 
 function App() {
   const [springs, api] = useSpring(() => {
@@ -24,17 +24,16 @@ function App() {
       console.log(reason)
     })
   }
-
-  const p = new Promise((resolve, reject) => {
-    resolve('This is resolve');
-  });
-  console.log(p);
-
-  p.then((val) => {
-    console.log(val);
-  }).catch(reason => {
-    console.log(reason);
-  });
+  // const p = new Promise((resolve, reject) => {
+  //   resolve('This is resolve');
+  // });
+  // console.log(p);
+  //
+  // p.then((val) => {
+  //   console.log(val);
+  // }).catch(reason => {
+  //   console.log(reason);
+  // });
 
   return (
     <div className="container mx-auto p-5 xl:p-10 bg-white shadow-lg rounded-lg ">
