@@ -1,0 +1,30 @@
+.filter {
+    display: flex;
+    align-items: center;
+}
+.filter-item {
+
+    & p {
+        text-align: center;
+    }
+    & input[type="range"] {
+        appearance: none;
+        background: transparent;
+    }
+    & input[type="range"]::-webkit-slider-runnable-track {
+        height: 4px;
+        background: #1988ff;
+        border-radius: 5px;
+    }
+    & input[type="range"]::-webkit-slider-container {
+        height: 20px;
+
+    }
+    & input[type="range"]::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+        background-color: rgba(30, 161, 243, 0.99);
+        appearance: none;
+        margin-top: -8px;
+    }
+}

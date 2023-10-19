@@ -1,29 +1,35 @@
-import {createBrowserRouter} from 'react-router-dom'
-import App from '../pages/App'
-import ViewPort from '../pages/viewPort/ViewPort'
-import Error from '../pages/errorPage/Error'
-import Login from '../pages/login/Login'
-import Demo from "../pages/demo/Demo";
+import { createBrowserRouter } from 'react-router-dom';
+import App from '../pages/App';
+import ViewPort from '../pages/viewPort/ViewPort';
+import Error from '../pages/errorPage/Error';
+import Login from '../pages/login/Login';
+import Demo from '../pages/demo/Demo';
+import CssFilter from '../pages/cssFliter/CssFilter';
 
 const router = createBrowserRouter([
   {
     path: '/demo',
-    element: <Demo />
+    element: <Demo />,
   },
   {
     path: '/view',
-    element: <ViewPort />
+    element: <ViewPort />,
   },
   {
     path: '/login',
     element: <Login />,
-    errorElement: <Error />
+    errorElement: <Error />,
+  },
+  {
+    path: '/cssfilter',
+    element: <CssFilter />,
+    errorElement: <Error />,
   },
   {
     path: '/',
     element: <App />,
-    errorElement: <Error />
-  }
-])
+    errorElement: <Error />,
+  },
+]);
 
-export default router
+export default router;
