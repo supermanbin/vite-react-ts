@@ -1,12 +1,18 @@
 import { create } from 'zustand';
 
-type countStoreType = {
+type State = {
   count: number;
 };
 
-const useStore = create<countStoreType>((set) => ({
+type Actions = {
+  add: (count: number) => void;
+};
+
+const useStore = create<State & Actions>((set) => ({
   count: 0,
-  add: () => set((prevState) => ({ count: prevState.count + 1 })),
+  add: (count: number) => {
+    set(() => ({ count: count + 1 }));
+  },
 }));
 
 export default useStore;

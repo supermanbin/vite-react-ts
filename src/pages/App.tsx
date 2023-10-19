@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './App.css';
 import HttpClient from '../utils/httpClient';
 import apis from '../utils/apis';
+import useStore from '../store/store';
 
 function App() {
   const [springs, api] = useSpring(() => {
@@ -11,6 +12,9 @@ function App() {
     };
   });
 
+  const count = useStore((state) => state.count);
+  const add = useStore((state) => state.add);
+
   const handleClick = () => {
     api.start({
       to: { width: springs.width.get() === 80 ? 200 : 80 },
@@ -18,6 +22,7 @@ function App() {
   };
 
   const getOneFileHandle = () => {
+    add(0);
     HttpClient.get(`${apis.film}/1`)
       .then((value) => {
         console.log(value);
@@ -49,6 +54,7 @@ function App() {
       >
         {springs.width.to((x) => x.toFixed(0))}
       </animated.div>
+      <h1>{count}</h1>
       <form action="">
         <label className="flex flex-row items-center">
           <input type="radio" name="fruit" className="w-5 h-5 mr-2" defaultChecked />
