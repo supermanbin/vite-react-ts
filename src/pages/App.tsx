@@ -71,11 +71,13 @@ function App() {
       <animated.button className="bg-slate-300 px-6 py-1 box" onClick={getOneFileHandle}>
         download
       </animated.button>
-      <ul>
-        <li>
+      <ul className="flex">
+        <li className="p-2">
           <NavLink to={'/cssfilter'}>Css Filter</NavLink>
         </li>
-        <li></li>
+        <li className="p-2">
+          <NavLink to={'/login'}>Login</NavLink>
+        </li>
         <li></li>
       </ul>
     </div>
