@@ -2,12 +2,14 @@
     padding: 16px;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 .file-uploader {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 8px;
     position: relative;
+    flex-basis: 10%;
 
     & label {
         position: absolute;
@@ -28,7 +30,7 @@
     }
 
     & input[type="file"] {
-        height: 60px;
+        /*height: 60px;*/
         width: 100%;
         appearance: none;
         /*opacity: 0;*/
@@ -38,7 +40,9 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    flex: 1;
+    overflow: hidden;
+    flex-grow: 1;
+    flex-basis: 90%;
 }
 .filter-item {
     display: flex;

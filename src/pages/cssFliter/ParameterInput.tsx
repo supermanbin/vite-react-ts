@@ -21,7 +21,7 @@ export default function ParameterInput(props: ParameterType) {
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mb-3">
       <span className="mr-3">
         <img alt="" src={src} width={32} style={{ filter: `${filterType}(${value}${unit ?? '%'})` }} />
       </span>
