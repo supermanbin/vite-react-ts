@@ -1,15 +1,65 @@
+.wrapper {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+.file-uploader {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    position: relative;
+
+    & label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: #eeeeee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all ease-in 0.3s;
+        color: #666666;
+        &:hover {
+            background: #f4f4f6;
+        }
+    }
+
+    & input[type="file"] {
+        height: 60px;
+        width: 100%;
+        appearance: none;
+        /*opacity: 0;*/
+    }
+}
 .filter {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    flex: 1;
 }
 .filter-item {
     display: flex;
     flex-direction: column;
     padding: 0 20px;
+    width: 300px;
+    align-items: center;
     & p {
         text-align: center;
+        font-size: 14px;
     }
     & input[type="range"] {
-
+        width: 100%;
     }
+}
+.image-view {
+    flex-basis: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter-param {
+    flex-basis: 50%;
 }

@@ -23,7 +23,6 @@ const router = createBrowserRouter([
   {
     path: '/cssfilter',
     element: <CssFilter />,
-    errorElement: <Error />,
   },
   {
     path: '/',
