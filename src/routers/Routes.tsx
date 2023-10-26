@@ -5,6 +5,7 @@ import Error from '../pages/errorPage/Error';
 import Login from '../pages/login/Login';
 import Demo from '../pages/demo/Demo';
 import CssFilter from '../pages/cssFliter/CssFilter';
+import AudioCut from '../pages/audioCut/AudioCut';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
   {
     path: '/cssfilter',
     element: <CssFilter />,
+    errorElement: <Error />,
+  },
+  {
+    path: '/audiocut',
+    element: <AudioCut />,
   },
   {
     path: '/',

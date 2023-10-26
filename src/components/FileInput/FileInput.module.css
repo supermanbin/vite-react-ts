@@ -1,0 +1,32 @@
+.file-uploader {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    position: relative;
+    flex-basis: 10%;
+
+    & label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: #eeeeee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all ease-in 0.3s;
+        color: #666666;
+        &:hover {
+            background: #f4f4f6;
+        }
+    }
+
+    & input[type="file"] {
+        /*height: 60px;*/
+        width: 100%;
+        appearance: none;
+        /*opacity: 0;*/
+    }
+}

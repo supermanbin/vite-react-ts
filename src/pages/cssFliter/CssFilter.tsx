@@ -4,6 +4,7 @@ import ParameterInput from './ParameterInput';
 import { Simulate } from 'react-dom/test-utils';
 import mouseDown = Simulate.mouseDown;
 import mouseUp = Simulate.mouseUp;
+import FileInput from '../../components/FileInput/FileInput';
 
 export default function CssFilter() {
   const [filter, setFilter] = useState({
@@ -30,15 +31,11 @@ export default function CssFilter() {
     }));
   };
 
-  const fileChange = (e: any) => {
-    const files = e.target.files;
-    console.log(files[0]);
-    if (!files.length) return;
+  const fileChange = (file: any) => {
     const reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = function (ev: ProgressEvent<FileReader>) {
-      console.log(ev);
-      setImgSrc(ev.target?.result);
+    reader.readAsDataURL(file);
+    reader.onload = function (e: ProgressEvent<FileReader>) {
+      setImgSrc(e.target?.result);
     };
   };
 
@@ -70,10 +67,7 @@ export default function CssFilter() {
 
   return (
     <div className={style.wrapper}>
-      <div className={style['file-uploader']}>
-        <label htmlFor="fileUploader">请选择文件</label>
-        <input type="file" id="fileUploader" onChange={fileChange} />
-      </div>
+      <FileInput onChange={fileChange} />
       <div className={style.filter}>
         <div className={style['image-view']}>
           <img

@@ -78,7 +78,11 @@ function App() {
         <li className="p-2">
           <NavLink to={'/login'}>Login</NavLink>
         </li>
-        <li></li>
+        <li>
+          <li className="p-2">
+            <NavLink to={'/audiocut'}>Audio Cut</NavLink>
+          </li>
+        </li>
       </ul>
     </div>
   );
