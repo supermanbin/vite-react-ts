@@ -10,11 +10,12 @@ type ParameterType = {
   step?: number;
   value: string;
   unit?: string;
+  disabled?: boolean;
   onChange: (t: EventTarget & HTMLInputElement) => void;
 };
 
 export default function ParameterInput(props: ParameterType) {
-  const { title, unit, src, filterType, max, min, step, onChange, value } = props;
+  const { title, unit, src, filterType, max, min, step, onChange, value, disabled } = props;
   const changeHandle = (value: ChangeEvent<HTMLInputElement>) => {
     const target = value.target;
     onChange(target);
@@ -35,6 +36,7 @@ export default function ParameterInput(props: ParameterType) {
           max={max}
           min={min}
           step={step}
+          disabled={disabled}
           onChange={changeHandle}
         />
         <span title={title}>

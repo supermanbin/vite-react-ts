@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import firefox from '../../assets/img/firefox-logo.svg';
 import style from './CssFliter.module.css';
 import ParameterInput from './ParameterInput';
+import { Simulate } from 'react-dom/test-utils';
+import mouseDown = Simulate.mouseDown;
+import mouseUp = Simulate.mouseUp;
 
 export default function CssFilter() {
   const [filter, setFilter] = useState({
@@ -15,6 +17,12 @@ export default function CssFilter() {
     sepia: 0,
   });
   const [imgSrc, setImgSrc] = useState('');
+
+  const [pointer, setPointer] = useState({
+    a: 0,
+    moveX: 0,
+  });
+
   const changeHandle = (target: any) => {
     setFilter((state) => ({
       ...state,
@@ -28,10 +36,36 @@ export default function CssFilter() {
     if (!files.length) return;
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = function (ev) {
+    reader.onload = function (ev: ProgressEvent<FileReader>) {
       console.log(ev);
       setImgSrc(ev.target?.result);
     };
+  };
+
+  const mouseMoveHandle = (e) => {
+    console.log(pointer.a);
+    setPointer((prevState) => {
+      console.log(e.clientX - prevState.a);
+      return {
+        ...prevState,
+        moveX: -(e.clientX - prevState.a),
+      };
+    });
+  };
+
+  const mouseDownHandler = (e) => {
+    console.log(e);
+    setPointer((prevState) => ({
+      ...prevState,
+      a: e.clientX,
+    }));
+  };
+
+  const mouseUpHandler = () => {
+    setPointer((prevState) => ({
+      ...prevState,
+      a: 0,
+    }));
   };
 
   return (
@@ -61,6 +95,10 @@ export default function CssFilter() {
           />
         </div>
         <div className={style['filter-param']}>
+          <div className={style.slider} onMouseMove={mouseMoveHandle}>
+            <div className={style.track} onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler}></div>
+            <div className={style.progress} style={{ transform: `translateX(${pointer.moveX}px)` }}></div>
+          </div>
           <ParameterInput
             filterType="grayscale"
             value={filter.grayscale.toString()}
