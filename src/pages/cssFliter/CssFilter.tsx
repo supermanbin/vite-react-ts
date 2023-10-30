@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import style from './CssFliter.module.css';
-import ParameterInput from './ParameterInput';
+import SliderInput from '../../components/SliderInput/SliderInput';
 import { Simulate } from 'react-dom/test-utils';
 import mouseDown = Simulate.mouseDown;
 import mouseUp = Simulate.mouseUp;
@@ -93,7 +93,7 @@ export default function CssFilter() {
             <div className={style.track} onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler}></div>
             <div className={style.progress} style={{ transform: `translateX(${pointer.moveX}px)` }}></div>
           </div>
-          <ParameterInput
+          <SliderInput
             filterType="grayscale"
             value={filter.grayscale.toString()}
             onChange={changeHandle}
@@ -101,7 +101,7 @@ export default function CssFilter() {
             title="将图像转换为灰度图。值为 100% 则完全转为灰度图像，若为初始值 0% 则图像无变化。值在 0% 到 100%
               之间，则是该效果的线性乘数。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="blur"
             value={filter.blur.toString()}
             onChange={changeHandle}
@@ -110,7 +110,7 @@ export default function CssFilter() {
             unit="px"
             title="将高斯模糊应用于输入图像。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="brightness"
             value={filter.brightness.toString()}
             onChange={changeHandle}
@@ -119,7 +119,7 @@ export default function CssFilter() {
             title="将线性乘法器应用于输入图像，以调整其亮度。值为 0% 将创建全黑图像；值为 100%
               会使输入保持不变，其他值是该效果的线性乘数。如果值大于 100% 将使图像更加明亮。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="contrast"
             value={filter.contrast.toString()}
             onChange={changeHandle}
@@ -128,7 +128,7 @@ export default function CssFilter() {
             src={imgSrc}
             title="调整输入图像的对比度。值是 0% 将使图像变灰；值是 100%，则无影响；若值超过 100% 将增强对比度。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="hue-rotate"
             value={filter['hue-rotate'].toString()}
             onChange={changeHandle}
@@ -137,7 +137,7 @@ export default function CssFilter() {
             unit="deg"
             title="应用色相旋转。angle 值设定图像会被调整的色环角度值。值为 0deg，则图像无变化。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="invert"
             value={filter.invert.toString()}
             onChange={changeHandle}
@@ -145,7 +145,7 @@ export default function CssFilter() {
             src={imgSrc}
             title="反转输入图像。值为 100% 则图像完全反转，值为 0% 则图像无变化。值在 0% 和 100% 之间，则是该效果的线性乘数。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="saturate"
             value={filter.saturate.toString()}
             onChange={changeHandle}
@@ -153,7 +153,7 @@ export default function CssFilter() {
             src={imgSrc}
             title="改变图像饱和度。值为 0% 则是完全不饱和，值为 100% 则图像无变化。超过 100% 则增加饱和度。"
           />
-          <ParameterInput
+          <SliderInput
             filterType="sepia"
             value={filter.sepia.toString()}
             onChange={changeHandle}

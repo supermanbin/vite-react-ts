@@ -72,14 +72,14 @@ function App() {
         download
       </animated.button>
       <ul className="flex">
-        <li className="p-2">
+        <li className="p-2" key="cssfilter">
           <NavLink to={'/cssfilter'}>Css Filter</NavLink>
         </li>
-        <li className="p-2">
+        <li className="p-2" key="login">
           <NavLink to={'/login'}>Login</NavLink>
         </li>
         <li>
-          <li className="p-2">
+          <li className="p-2" key="audiocut">
             <NavLink to={'/audiocut'}>Audio Cut</NavLink>
           </li>
         </li>
