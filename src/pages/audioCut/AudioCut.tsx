@@ -1,9 +1,10 @@
 import FileInput from '../../components/FileInput/FileInput';
-import { useState, useRef, MutableRefObject, useEffect } from 'react';
+import { useState, useRef, MutableRefObject, useEffect, ChangeEvent } from 'react';
 import style from './AudioCut.module.css';
 
 export default function AudioCut() {
   const [fileName, setFileName] = useState('');
+  const [barType, setBarType] = useState('leftWave');
   const audioRef: MutableRefObject<HTMLAudioElement> = useRef(null);
   const canvasRef: MutableRefObject<HTMLCanvasElement> = useRef(null);
 
@@ -35,7 +36,7 @@ export default function AudioCut() {
     const ctx = canvas.getContext('2d');
     const WIDTH = (canvas.width = canvas.clientWidth * window.devicePixelRatio);
     const HEIGHT = (canvas.height = canvas.clientHeight * window.devicePixelRatio);
-    const barW = WIDTH / bufferLength / 2;
+    let barW = WIDTH / bufferLength / 2;
     // const barW = 2;
     let barH;
     let x = 0;
@@ -61,16 +62,26 @@ export default function AudioCut() {
         // var b = 250 * (i / bufferLength);
         // ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
         ctx.fillStyle = gradient;
-        // X轴的前半部分数据
-        // ctx.fillRect(WIDTH / 2 - x, HEIGHT - barH, barW, barH);
-        // X轴的后半部分数据
-        // ctx.fillRect(WIDTH / 2 + x, HEIGHT - barH, barW, barH);
+        switch (barType) {
+          case 'leftWave':
+            barW = WIDTH / bufferLength;
+            ctx.fillRect(x, HEIGHT - barH, barW, barH);
+            break;
+          case 'middleWave':
+            // X轴的前半部分数据
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT - barH, barW, barH);
+            // X轴的后半部分数据
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT - barH, barW, barH);
+            break;
+          case 'intelligentWave':
+            // 镜像操作
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, -barH / 2);
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, barH / 2);
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, -barH / 2);
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, barH / 2);
+            break;
+        }
 
-        // 镜像操作
-        ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, -barH / 2);
-        ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, barH / 2);
-        ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, -barH / 2);
-        ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, barH / 2);
         x += barW;
       }
     }
@@ -79,7 +90,13 @@ export default function AudioCut() {
     renderFrame();
   };
 
-  const clearFile = () => {};
+  const handleBarTypeChange = (e: ChangeEvent) => {
+    setBarType(e.target.value);
+  };
+
+  const drawWave = () => {
+    // console.log(a);
+  };
 
   return (
     <div>
@@ -89,6 +106,18 @@ export default function AudioCut() {
       </audio>
       <FileInput onChange={fileChange}></FileInput>
       <canvas className={style.canvas} ref={canvasRef}></canvas>
+      <label>
+        Left Wave
+        <input type="radio" name="barType" value="leftWave" onChange={handleBarTypeChange} />
+      </label>
+      <label>
+        Middle Wave
+        <input type="radio" name="barType" value="middleWave" onChange={handleBarTypeChange} />
+      </label>
+      <label>
+        Intelligent Wave
+        <input type="radio" name="barType" value="intelligentWave" onChange={handleBarTypeChange} />
+      </label>
     </div>
   );
 }
