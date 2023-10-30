@@ -14,8 +14,18 @@ type ParameterType = {
   onChange: (t: EventTarget & HTMLInputElement) => void;
 };
 
-export default function ParameterInput(props: ParameterType) {
-  const { title, unit, src, filterType, max, min, step, onChange, value, disabled } = props;
+export default function SliderInput({
+  title,
+  unit,
+  src,
+  filterType,
+  max,
+  min,
+  step,
+  onChange,
+  value,
+  disabled,
+}: ParameterType) {
   const changeHandle = (value: ChangeEvent<HTMLInputElement>) => {
     const target = value.target;
     onChange(target);

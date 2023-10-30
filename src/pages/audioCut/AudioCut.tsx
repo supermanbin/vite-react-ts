@@ -7,6 +7,7 @@ export default function AudioCut() {
   const [barType, setBarType] = useState('leftWave');
   const audioRef: MutableRefObject<HTMLAudioElement> = useRef(null);
   const canvasRef: MutableRefObject<HTMLCanvasElement> = useRef(null);
+  const lineRef: MutableRefObject<HTMLCanvasElement> = useRef(null);
 
   useEffect(() => {}, []);
 
@@ -44,6 +45,28 @@ export default function AudioCut() {
     gradient.addColorStop(0, '#6500ff');
     gradient.addColorStop(0.5, '#ff00a2');
     gradient.addColorStop(1, '#6500ff');
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = (pe) => {
+      const data: ArrayBuffer = pe.target?.result;
+      const dataArray = Array.prototype.slice.call(new Uint8Array(data));
+      const lineCanvas = lineRef.current;
+      lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
+      lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
+      const ctx = lineCanvas.getContext('2d');
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.moveTo(0, 0);
+      console.log(ctx);
+      console.log(dataArray.length);
+      for (let i = 0; i < dataArray.length / 10; i++) {
+        ctx.lineTo(i, dataArray[i]);
+        ctx.moveTo(i + 1, 0);
+      }
+      ctx.stroke();
+    };
+
     // #ff00a2, #6500ff
     function renderFrame() {
       requestAnimationFrame(renderFrame);
@@ -55,7 +78,7 @@ export default function AudioCut() {
       // 清除画布内容
       ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-      for (var i = 0; i < bufferLength; i++) {
+      for (let i = 0; i < bufferLength; i++) {
         barH = dataArray[i];
         // var r = barH + 50 * (i / bufferLength);
         // var g = 250 * (i / bufferLength);
@@ -82,12 +105,12 @@ export default function AudioCut() {
             break;
         }
 
-        x += barW;
+        x = x + barW + 1;
       }
     }
 
-    audio.play();
-    renderFrame();
+    // audio.play();
+    // renderFrame();
   };
 
   const handleBarTypeChange = (e: ChangeEvent) => {
@@ -118,6 +141,7 @@ export default function AudioCut() {
         Intelligent Wave
         <input type="radio" name="barType" value="intelligentWave" onChange={handleBarTypeChange} />
       </label>
+      <canvas className={style.canvas} ref={lineRef}></canvas>
     </div>
   );
 }
