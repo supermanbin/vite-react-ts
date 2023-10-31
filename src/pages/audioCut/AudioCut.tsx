@@ -49,22 +49,11 @@ export default function AudioCut() {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onload = (pe) => {
-      const data: ArrayBuffer = pe.target?.result;
-      const dataArray = Array.prototype.slice.call(new Uint8Array(data));
-      const lineCanvas = lineRef.current;
-      lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
-      lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
-      const ctx = lineCanvas.getContext('2d');
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.moveTo(0, 0);
-      console.log(ctx);
-      console.log(dataArray.length);
-      for (let i = 0; i < dataArray.length / 10; i++) {
-        ctx.lineTo(i, dataArray[i]);
-        ctx.moveTo(i + 1, 0);
-      }
-      ctx.stroke();
+      const data = pe.target?.result;
+      const acx = new AudioContext();
+      acx.decodeAudioData(data).then((buffer) => {
+        console.log(acx.sampleRate);
+      });
     };
 
     // #ff00a2, #6500ff
@@ -98,10 +87,10 @@ export default function AudioCut() {
             break;
           case 'intelligentWave':
             // 镜像操作
-            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, -barH / 2);
-            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, barH / 2);
-            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, -barH / 2);
-            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, barH / 2);
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, -barH);
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, barH);
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, -barH);
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, barH);
             break;
         }
 
