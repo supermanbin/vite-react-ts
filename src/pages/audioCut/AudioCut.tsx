@@ -12,7 +12,6 @@ export default function AudioCut() {
   useEffect(() => {}, []);
 
   const fileChange = (file: any) => {
-    // const reader = new FileReader();
     const audio = audioRef.current;
     audio.src = URL.createObjectURL(file);
     audio.load();
@@ -48,11 +47,27 @@ export default function AudioCut() {
 
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
+
     reader.onload = (pe) => {
       const data = pe.target?.result;
       const acx = new AudioContext();
       acx.decodeAudioData(data).then((buffer) => {
-        console.log(acx.sampleRate);
+        const rawData = buffer.getChannelData(0);
+        const sampleRate = 70;
+        const onePiceOfSize = Math.floor(rawData.length / sampleRate);
+        const filterData: number[] = [];
+        for (let i = 0; i < sampleRate; i++) {
+          filterData.push(rawData[i * onePiceOfSize]);
+        }
+        const lineCanvas = lineRef.current;
+        const lineCtx = lineCanvas.getContext('2d');
+        lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
+        lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
+        let xAxis = 0;
+        for (let i = 0; i < filterData.length; i++) {
+          lineCtx.fillRect(xAxis, 300, 5, 10 * Math.abs(Math.floor(filterData[i])));
+          xAxis = xAxis + 5 + 1;
+        }
       });
     };
 
