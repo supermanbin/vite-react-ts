@@ -16,7 +16,6 @@ export default function AudioCut() {
     const audio = audioRef.current;
     audio.src = URL.createObjectURL(file);
     audio.load();
-    setFileName(file.name);
     // 1. 创建音频上下文
     const audioCtx = new AudioContext();
     // 2. 创建音频源
@@ -29,6 +28,18 @@ export default function AudioCut() {
     analyser.connect(audioCtx.destination);
     // 6. 设置fftSize(快速傅里叶变换)
     analyser.fftSize = 256;
+    setFileName(file.name);
+    renderFrame(analyser);
+    drawWave(file);
+
+    // audio.play();
+  };
+
+  const handleBarTypeChange = (e: ChangeEvent) => {
+    setBarType(e.target.value);
+  };
+
+  const renderFrame = (analyser: AnalyserNode) => {
     // 7. 设置频率计数，此值一般为fftsize的一半
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
@@ -45,9 +56,9 @@ export default function AudioCut() {
     gradient.addColorStop(0.5, '#ff00a2');
     gradient.addColorStop(1, '#6500ff');
 
-    function renderFrame() {
-      requestAnimationFrame(renderFrame);
+    function animate() {
       x = 0;
+      requestAnimationFrame(animate);
       // 获取每一帧的音频频率数据
       // 实际是通过getByteFrequencyData方法将音频的采集点的数据回填到dataArray里
       // 这样dataArray每一帧的数据都是不同的，就可以针对数据进行可视化操作
@@ -85,14 +96,7 @@ export default function AudioCut() {
         x = x + barW + 1;
       }
     }
-    // audio.play();
-    renderFrame();
-
-    drawWave(file);
-  };
-
-  const handleBarTypeChange = (e: ChangeEvent) => {
-    setBarType(e.target.value);
+    animate();
   };
 
   const drawWave = (file: any) => {
