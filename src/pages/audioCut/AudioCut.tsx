@@ -51,27 +51,31 @@ export default function AudioCut() {
     reader.onload = (pe) => {
       const data = pe.target?.result;
       const acx = new AudioContext();
+      const lineCanvas = lineRef.current;
+      const lineCtx = lineCanvas.getContext('2d');
+      lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
+      lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
+      console.log(lineCanvas.width, lineCanvas.height);
       acx.decodeAudioData(data).then((buffer) => {
         const rawData = buffer.getChannelData(0);
-        const sampleRate = 70;
+        const sampleRate = 200;
         const onePiceOfSize = Math.floor(rawData.length / sampleRate);
         const filterData: number[] = [];
-        for (let i = 0; i < sampleRate; i++) {
-          filterData.push(rawData[i * onePiceOfSize]);
-        }
-        const lineCanvas = lineRef.current;
-        const lineCtx = lineCanvas.getContext('2d');
-        lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
-        lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
         let xAxis = 0;
+        let yAxis = lineCanvas.height / 2;
+        let barW = Math.floor(lineCanvas.width / sampleRate) - 1;
+        for (let i = 0; i < sampleRate; i++) {
+          filterData.push(100 * rawData[i * onePiceOfSize]);
+        }
         for (let i = 0; i < filterData.length; i++) {
-          lineCtx.fillRect(xAxis, 300, 5, 10 * Math.abs(Math.floor(filterData[i])));
-          xAxis = xAxis + 5 + 1;
+          const barH = Math.abs(Math.floor(filterData[i]));
+          lineCtx.fillRect(xAxis, yAxis - barH / 2, barW, barH);
+          lineCtx.fillStyle = i === filterData.length - 2 ? 'red' : '#1988ff';
+          xAxis = xAxis + barW + 1;
         }
       });
     };
 
-    // #ff00a2, #6500ff
     function renderFrame() {
       requestAnimationFrame(renderFrame);
       x = 0;
@@ -114,7 +118,7 @@ export default function AudioCut() {
     }
 
     // audio.play();
-    // renderFrame();
+    renderFrame();
   };
 
   const handleBarTypeChange = (e: ChangeEvent) => {
