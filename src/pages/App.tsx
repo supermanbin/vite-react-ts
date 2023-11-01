@@ -78,10 +78,11 @@ function App() {
         <li className="p-2" key="login">
           <NavLink to={'/login'}>Login</NavLink>
         </li>
-        <li>
-          <li className="p-2" key="audiocut">
-            <NavLink to={'/audiocut'}>Audio Cut</NavLink>
-          </li>
+        <li className="p-2" key="audiocut">
+          <NavLink to={'/audiocut'}>Audio Cut</NavLink>
+        </li>
+        <li className="p-2" key="player">
+          <NavLink to={'/player'}>Audio Player</NavLink>
         </li>
       </ul>
     </div>

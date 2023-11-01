@@ -2,6 +2,7 @@ import FileInput from '@/components/FileInput/FileInput';
 import { useState, useRef, MutableRefObject, useEffect, ChangeEvent } from 'react';
 import style from './AudioCut.module.css';
 
+const worker = new Worker('../../src/workers/drawAudioWaveWorker.js');
 export default function AudioCut() {
   const [fileName, setFileName] = useState('');
   const [barType, setBarType] = useState('leftWave');
@@ -30,7 +31,6 @@ export default function AudioCut() {
     analyser.fftSize = 256;
     // 7. 设置频率计数，此值一般为fftsize的一半
     const bufferLength = analyser.frequencyBinCount;
-    console.log(analyser);
     const dataArray = new Uint8Array(bufferLength);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -41,40 +41,9 @@ export default function AudioCut() {
     let barH;
     let x = 0;
     const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-    gradient.addColorStop(0, '#6500ff');
+    gradient.addColorStop(0, '#4000ff');
     gradient.addColorStop(0.5, '#ff00a2');
     gradient.addColorStop(1, '#6500ff');
-
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-
-    reader.onload = (pe) => {
-      const data = pe.target?.result;
-      const acx = new AudioContext();
-      const lineCanvas = lineRef.current;
-      const lineCtx = lineCanvas.getContext('2d');
-      lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
-      lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
-      console.log(lineCanvas.width, lineCanvas.height);
-      acx.decodeAudioData(data).then((buffer) => {
-        const rawData = buffer.getChannelData(0);
-        const sampleRate = 200;
-        const onePiceOfSize = Math.floor(rawData.length / sampleRate);
-        const filterData: number[] = [];
-        let xAxis = 0;
-        let yAxis = lineCanvas.height / 2;
-        let barW = Math.floor(lineCanvas.width / sampleRate) - 1;
-        for (let i = 0; i < sampleRate; i++) {
-          filterData.push(100 * rawData[i * onePiceOfSize]);
-        }
-        for (let i = 0; i < filterData.length; i++) {
-          const barH = Math.abs(Math.floor(filterData[i]));
-          lineCtx.fillRect(xAxis, yAxis - barH / 2, barW, barH);
-          lineCtx.fillStyle = i === filterData.length - 2 ? 'red' : '#1988ff';
-          xAxis = xAxis + barW + 1;
-        }
-      });
-    };
 
     function renderFrame() {
       requestAnimationFrame(renderFrame);
@@ -116,19 +85,51 @@ export default function AudioCut() {
         x = x + barW + 1;
       }
     }
-
     // audio.play();
     renderFrame();
+
+    drawWave(file);
   };
 
   const handleBarTypeChange = (e: ChangeEvent) => {
     setBarType(e.target.value);
-    const worker = new Worker('../../src/workers/drawAudioWaveWorker.js');
-    worker.postMessage(e.target.value);
   };
 
-  const drawWave = () => {
-    // console.log(a);
+  const drawWave = (file: any) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    const acx = new AudioContext();
+    const lineCanvas = lineRef.current;
+    const offlineScreen = lineCanvas.transferControlToOffscreen();
+    // const lineCtx = lineCanvas.getContext('2d');
+    // lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
+    // lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
+    worker.postMessage({ canvas: offlineScreen }, [offlineScreen]);
+
+    reader.onload = (pe) => {
+      const data = pe.target?.result;
+      acx.decodeAudioData(data).then((buffer) => {
+        const rawData = buffer.getChannelData(0);
+        const sampleRate = 200;
+        const onePiceOfSize = Math.round(rawData.length / sampleRate);
+        const filterData: number[] = [];
+        // let xAxis = 0;
+        // let yAxis = lineCanvas.height / 2;
+        // let barW = Math.round(lineCanvas.width / sampleRate) - 1;
+        for (let i = 0; i < sampleRate; i++) {
+          filterData.push(100 * rawData[i * onePiceOfSize]);
+        }
+        // lineCtx.beginPath();
+        // for (let i = 0; i < filterData.length; i++) {
+        //   const barH = Math.abs(Math.round(filterData[i]));
+        //   lineCtx.roundRect(xAxis, yAxis - barH / 2, barW, barH, 4);
+        //   lineCtx.fillStyle = i === filterData.length - 5 ? 'red' : '#1988ff';
+        //   xAxis = i * (barW + 1);
+        // }
+        // lineCtx.fill();
+        worker.postMessage(filterData);
+      });
+    };
   };
 
   return (

@@ -1,3 +1,3 @@
 onmessage = (e) => {
-  console.log(e.data);
+  console.log(e);
 };
