@@ -1,4 +1,4 @@
-import FileInput from '../../components/FileInput/FileInput';
+import FileInput from '@/components/FileInput/FileInput';
 import { useState, useRef, MutableRefObject, useEffect, ChangeEvent } from 'react';
 import style from './AudioCut.module.css';
 
@@ -123,6 +123,8 @@ export default function AudioCut() {
 
   const handleBarTypeChange = (e: ChangeEvent) => {
     setBarType(e.target.value);
+    const worker = new Worker('../../src/workers/drawAudioWaveWorker.js');
+    worker.postMessage(e.target.value);
   };
 
   const drawWave = () => {
