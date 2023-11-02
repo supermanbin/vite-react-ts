@@ -13,6 +13,18 @@ export default function AudioCut() {
   useEffect(() => {}, []);
 
   const fileChange = (file: any) => {
+    setFileName(file.name);
+    renderFrame(file);
+    drawWave(file);
+
+    // audio.play();
+  };
+
+  const handleBarTypeChange = (e: ChangeEvent) => {
+    setBarType(e.target.value);
+  };
+
+  const renderFrame = (file) => {
     const audio = audioRef.current;
     audio.src = URL.createObjectURL(file);
     audio.load();
@@ -28,18 +40,6 @@ export default function AudioCut() {
     analyser.connect(audioCtx.destination);
     // 6. 设置fftSize(快速傅里叶变换)
     analyser.fftSize = 256;
-    setFileName(file.name);
-    renderFrame(analyser);
-    drawWave(file);
-
-    // audio.play();
-  };
-
-  const handleBarTypeChange = (e: ChangeEvent) => {
-    setBarType(e.target.value);
-  };
-
-  const renderFrame = (analyser: AnalyserNode) => {
     // 7. 设置频率计数，此值一般为fftsize的一半
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
@@ -136,7 +136,9 @@ export default function AudioCut() {
         Intelligent Wave
         <input type="radio" name="barType" value="intelligentWave" onChange={handleBarTypeChange} />
       </label>
-      <canvas className={style.canvas} ref={lineRef}></canvas>
+      <div>
+        <canvas className={style.canvas} ref={lineRef}></canvas>
+      </div>
     </div>
   );
 }
