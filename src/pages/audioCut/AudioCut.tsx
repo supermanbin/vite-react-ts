@@ -68,10 +68,6 @@ export default function AudioCut() {
 
       for (let i = 0; i < bufferLength; i++) {
         barH = dataArray[i];
-        // var r = barH + 50 * (i / bufferLength);
-        // var g = 250 * (i / bufferLength);
-        // var b = 250 * (i / bufferLength);
-        // ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
         ctx.fillStyle = gradient;
         switch (barType) {
           case 'leftWave':
@@ -113,16 +109,8 @@ export default function AudioCut() {
       const data = pe.target?.result;
       acx.decodeAudioData(data).then((buffer) => {
         const rawData = buffer.getChannelData(0);
-        const sampleRate = 300;
-        const barWidth = 10;
-        const barGap = 2;
-        // const onePiceOfSize = Math.round(rawData.length / (barWidth + barGap));
-        // const filterData: number[] = [];
-
-        // for (let i = 0; i < sampleRate; i++) {
-        //   filterData.push(rawData[i * onePiceOfSize]);
-        // }
-
+        const barWidth = 4;
+        const barGap = 1;
         worker.postMessage({ rawData, canvas, barWidth, barGap }, [canvas]);
       });
     };
