@@ -104,34 +104,26 @@ export default function AudioCut() {
     reader.readAsArrayBuffer(file);
     const acx = new AudioContext();
     const lineCanvas = lineRef.current;
-    const offlineScreen = lineCanvas.transferControlToOffscreen();
-    // const lineCtx = lineCanvas.getContext('2d');
-    // lineCanvas.width = lineCanvas.clientWidth * window.devicePixelRatio;
-    // lineCanvas.height = lineCanvas.clientHeight * window.devicePixelRatio;
-    worker.postMessage({ canvas: offlineScreen }, [offlineScreen]);
+    const pixelRatio = window.devicePixelRatio;
+    lineCanvas.width = lineCanvas.clientWidth * pixelRatio;
+    lineCanvas.height = lineCanvas.clientHeight * pixelRatio;
+    const canvas = lineCanvas.transferControlToOffscreen();
 
     reader.onload = (pe) => {
       const data = pe.target?.result;
       acx.decodeAudioData(data).then((buffer) => {
         const rawData = buffer.getChannelData(0);
-        const sampleRate = 200;
-        const onePiceOfSize = Math.round(rawData.length / sampleRate);
-        const filterData: number[] = [];
-        // let xAxis = 0;
-        // let yAxis = lineCanvas.height / 2;
-        // let barW = Math.round(lineCanvas.width / sampleRate) - 1;
-        for (let i = 0; i < sampleRate; i++) {
-          filterData.push(100 * rawData[i * onePiceOfSize]);
-        }
-        // lineCtx.beginPath();
-        // for (let i = 0; i < filterData.length; i++) {
-        //   const barH = Math.abs(Math.round(filterData[i]));
-        //   lineCtx.roundRect(xAxis, yAxis - barH / 2, barW, barH, 4);
-        //   lineCtx.fillStyle = i === filterData.length - 5 ? 'red' : '#1988ff';
-        //   xAxis = i * (barW + 1);
+        const sampleRate = 300;
+        const barWidth = 10;
+        const barGap = 2;
+        // const onePiceOfSize = Math.round(rawData.length / (barWidth + barGap));
+        // const filterData: number[] = [];
+
+        // for (let i = 0; i < sampleRate; i++) {
+        //   filterData.push(rawData[i * onePiceOfSize]);
         // }
-        // lineCtx.fill();
-        worker.postMessage(filterData);
+
+        worker.postMessage({ rawData, canvas, barWidth, barGap }, [canvas]);
       });
     };
   };
