@@ -4,7 +4,7 @@ import style from './AudioCut.module.css';
 
 const worker = new Worker('../../src/workers/drawAudioWaveWorker.js');
 export default function AudioCut() {
-  const [fileName, setFileName] = useState('');
+  const [file, setFile] = useState('');
   const [barType, setBarType] = useState('leftWave');
   const audioRef: MutableRefObject<HTMLAudioElement> = useRef(null);
   const canvasRef: MutableRefObject<HTMLCanvasElement> = useRef(null);
@@ -13,7 +13,7 @@ export default function AudioCut() {
   useEffect(() => {}, []);
 
   const fileChange = (file: any) => {
-    setFileName(file.name);
+    setFile(file);
     renderFrame(file);
     drawWave(file);
 
@@ -24,7 +24,7 @@ export default function AudioCut() {
     setBarType(e.target.value);
   };
 
-  const renderFrame = (file) => {
+  const renderFrame = (file: any) => {
     const audio = audioRef.current;
     audio.src = URL.createObjectURL(file);
     audio.load();
@@ -65,9 +65,12 @@ export default function AudioCut() {
       analyser.getByteFrequencyData(dataArray);
       // 清除画布内容
       ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
+      const max = dataArray.reduce((max, value) => Math.max(max, Math.abs(value)), 0);
+      const vScale = max ? HEIGHT / max : 1;
+      // console.log(max);
       for (let i = 0; i < bufferLength; i++) {
-        barH = dataArray[i];
+        barH = dataArray[i] * vScale;
+
         ctx.fillStyle = gradient;
         switch (barType) {
           case 'leftWave':
@@ -82,10 +85,10 @@ export default function AudioCut() {
             break;
           case 'intelligentWave':
             // 镜像操作
-            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, -barH);
-            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, barH);
-            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, -barH);
-            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, barH);
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, -barH / 2);
+            ctx.fillRect(WIDTH / 2 - x, HEIGHT / 2, barW, barH / 2);
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, -barH / 2);
+            ctx.fillRect(WIDTH / 2 + x, HEIGHT / 2, barW, barH / 2);
             break;
         }
 
@@ -116,10 +119,18 @@ export default function AudioCut() {
     };
   };
 
+  const handlePlay = (e) => {
+    console.log(e);
+  };
+
+  const handlePaste = (e) => {
+    console.log(e);
+  };
+
   return (
     <div>
-      {fileName}
-      <audio ref={audioRef} controls>
+      {file?.name}
+      <audio ref={audioRef} controls onPlay={handlePlay} onPaste={handlePaste}>
         <source src="" />
       </audio>
       <FileInput onChange={fileChange}></FileInput>
