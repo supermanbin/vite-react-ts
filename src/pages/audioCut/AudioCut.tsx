@@ -123,14 +123,14 @@ export default function AudioCut() {
     console.log(e);
   };
 
-  const handlePaste = (e) => {
+  const handlePause = (e) => {
     console.log(e);
   };
 
   return (
     <div>
       {file?.name}
-      <audio ref={audioRef} controls onPlay={handlePlay} onPaste={handlePaste}>
+      <audio ref={audioRef} controls onPlay={handlePlay} onPause={handlePause}>
         <source src="" />
       </audio>
       <FileInput onChange={fileChange}></FileInput>
