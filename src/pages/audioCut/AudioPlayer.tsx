@@ -50,7 +50,8 @@ export default function AudioPlayer() {
       bufferSource = actx.createBufferSource();
       bufferSource.buffer = audioBuffer;
       bufferSource.connect(gainNode);
-      bufferSource.start(0, 0, 10);
+      gainNode.connect(actx.destination);
+      bufferSource.start();
       console.log(bufferSource);
     } else {
       console.log('pause');
