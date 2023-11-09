@@ -10,6 +10,7 @@ const gainNode = actx.createGain();
 // 4. 创建buffer来源
 let bufferSource: AudioBufferSourceNode | null = null;
 let audioBuffer: AudioBuffer | null = null;
+let interval = null;
 
 export default function AudioPlayer() {
   const [audioInfo, setAudioInfo] = useState({
@@ -17,6 +18,7 @@ export default function AudioPlayer() {
     duration: 0,
   });
   const [playState, setPlayState] = useState('play');
+  const [playTime, setPlayTime] = useState(0);
 
   const fileChange = (file: any) => {
     reader.readAsArrayBuffer(file);
@@ -34,8 +36,6 @@ export default function AudioPlayer() {
     };
   };
 
-  const getCurrentTime = () => {};
-
   const clickHandle = () => {
     setPlayState((prev) => {
       if (prev === 'play') {
@@ -51,11 +51,15 @@ export default function AudioPlayer() {
       bufferSource.buffer = audioBuffer;
       bufferSource.connect(gainNode);
       gainNode.connect(actx.destination);
-      bufferSource.start();
-      console.log(bufferSource);
+      bufferSource.start(0, playTime, audioInfo.duration - playTime);
+      interval = setInterval(() => {
+        setPlayTime(parseInt(actx.currentTime));
+      }, 1000);
     } else {
       console.log('pause');
+      console.log(actx.currentTime);
       bufferSource?.stop();
+      clearInterval(interval);
     }
   };
 
@@ -63,6 +67,7 @@ export default function AudioPlayer() {
     <div>
       <p>文件名：{audioInfo.name}</p>
       <p>时长：{audioInfo.duration} s</p>
+      <p>{playTime} s</p>
       <FileInput onChange={fileChange}></FileInput>
       <button onClick={clickHandle}>{playState}</button>
     </div>
