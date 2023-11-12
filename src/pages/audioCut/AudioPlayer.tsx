@@ -1,27 +1,34 @@
 import FileInput from '@/components/FileInput/FileInput';
 import { useEffect, useState } from 'react';
+import { update } from '@react-spring/web';
 
 // 1. 创建文件读取
 const reader = new FileReader();
 // 2. 创建音频上下文
-const actx = new AudioContext();
+let actx: AudioContext | null = null;
 // 3. 创建增益节点
-const gainNode = actx.createGain();
+let gainNode: GainNode | null = null;
 // 4. 创建buffer来源
 let bufferSource: AudioBufferSourceNode | null = null;
 let audioBuffer: AudioBuffer | null = null;
-let interval = null;
+const animate = null;
 
 export default function AudioPlayer() {
   const [audioInfo, setAudioInfo] = useState({
     name: '',
     duration: 0,
   });
-  const [playState, setPlayState] = useState('play');
+  const [isPlaying, setIsPlaying] = useState(false);
   const [playTime, setPlayTime] = useState(0);
+
+  useEffect(() => {
+    console.log(isPlaying);
+  }, [isPlaying]);
 
   const fileChange = (file: any) => {
     reader.readAsArrayBuffer(file);
+    actx = new AudioContext();
+    gainNode = actx.createGain();
     // 读取文件
     reader.onload = (pe) => {
       // 将读取的文件流转化为音频流
@@ -37,29 +44,31 @@ export default function AudioPlayer() {
   };
 
   const clickHandle = () => {
-    setPlayState((prev) => {
-      if (prev === 'play') {
-        return 'pause';
-      } else {
-        return 'play';
-      }
+    setIsPlaying((prev) => {
+      return !prev;
     });
-    if (playState === 'play') {
-      console.log('play');
-      bufferSource?.disconnect();
+    if (!isPlaying) {
+      // bufferSource?.disconnect();
       bufferSource = actx.createBufferSource();
       bufferSource.buffer = audioBuffer;
       bufferSource.connect(gainNode);
       gainNode.connect(actx.destination);
-      bufferSource.start(0, playTime, audioInfo.duration - playTime);
-      interval = setInterval(() => {
-        setPlayTime(parseInt(actx.currentTime));
-      }, 1000);
+      bufferSource.start(0, playTime);
+      // interval = setInterval(() => {
+      //   setPlayTime(parseInt(actx.currentTime));
+      // }, 1000);
+      update();
     } else {
-      console.log('pause');
-      console.log(actx.currentTime);
       bufferSource?.stop();
-      clearInterval(interval);
+    }
+  };
+
+  const update = () => {
+    // requestAnimationFrame(update);
+    if (!isPlaying) {
+      setPlayTime((prev) => {
+        return actx.currentTime - prev;
+      });
     }
   };
 
@@ -69,7 +78,7 @@ export default function AudioPlayer() {
       <p>时长：{audioInfo.duration} s</p>
       <p>{playTime} s</p>
       <FileInput onChange={fileChange}></FileInput>
-      <button onClick={clickHandle}>{playState}</button>
+      <button onClick={clickHandle}>{isPlaying ? 'pause' : 'play'}</button>
     </div>
   );
 }
