@@ -7,6 +7,7 @@ import Demo from '../pages/demo/Demo';
 import CssFilter from '../pages/cssFliter/CssFilter';
 import AudioCut from '../pages/audioCut/AudioCut';
 import AudioPlayer from '../pages/audioCut/AudioPlayer';
+import TextStatistics from '../pages/textStatistics/TextStatistics';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
   {
     path: '/player',
     element: <AudioPlayer />,
+    errorElement: <Error />,
+  },
+  {
+    path: '/textcounters',
+    element: <TextStatistics />,
     errorElement: <Error />,
   },
   {

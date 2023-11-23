@@ -84,6 +84,9 @@ function App() {
         <li className="p-2" key="player">
           <NavLink to={'/player'}>Audio Player</NavLink>
         </li>
+        <li className="p-2" key="textcounters">
+          <NavLink to={'/textcounters'}>Text Statistics</NavLink>
+        </li>
       </ul>
     </div>
   );

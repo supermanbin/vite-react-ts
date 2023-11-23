@@ -1,0 +1,16 @@
+:root {
+    --box-bg: #eee;
+}
+
+.corner {
+    width: 200px;
+    height: 200px;
+    background: var(--box-bg);
+    margin-left: 100px;
+    /*border-radius: 10px;*/
+    clip-path: circle();
+    box-shadow: 0 10px 10px #666666;
+}
+.corner:hover {
+    clip-path: none;
+}

@@ -1,6 +1,5 @@
 import FileInput from '@/components/FileInput/FileInput';
 import { useEffect, useState } from 'react';
-import { update } from '@react-spring/web';
 
 // 1. 创建文件读取
 const reader = new FileReader();
@@ -11,7 +10,7 @@ let gainNode: GainNode | null = null;
 // 4. 创建buffer来源
 let bufferSource: AudioBufferSourceNode | null = null;
 let audioBuffer: AudioBuffer | null = null;
-const animate = null;
+let interval = null;
 
 export default function AudioPlayer() {
   const [audioInfo, setAudioInfo] = useState({
@@ -20,10 +19,6 @@ export default function AudioPlayer() {
   });
   const [isPlaying, setIsPlaying] = useState(false);
   const [playTime, setPlayTime] = useState(0);
-
-  useEffect(() => {
-    console.log(isPlaying);
-  }, [isPlaying]);
 
   const fileChange = (file: any) => {
     reader.readAsArrayBuffer(file);
@@ -37,48 +32,48 @@ export default function AudioPlayer() {
         setAudioInfo((prev) => ({
           ...prev,
           name: file.name,
-          duration: buffer.duration,
+          duration: parseInt(buffer.duration),
         }));
       });
     };
   };
 
-  const clickHandle = () => {
-    setIsPlaying((prev) => {
-      return !prev;
-    });
-    if (!isPlaying) {
-      // bufferSource?.disconnect();
-      bufferSource = actx.createBufferSource();
-      bufferSource.buffer = audioBuffer;
-      bufferSource.connect(gainNode);
-      gainNode.connect(actx.destination);
-      bufferSource.start(0, playTime);
-      // interval = setInterval(() => {
-      //   setPlayTime(parseInt(actx.currentTime));
-      // }, 1000);
-      update();
-    } else {
-      bufferSource?.stop();
-    }
+  const playHandle = () => {
+    bufferSource?.disconnect();
+    bufferSource = actx.createBufferSource();
+    bufferSource.buffer = audioBuffer;
+    bufferSource.connect(gainNode);
+    gainNode.connect(actx.destination);
+    bufferSource.start(actx?.currentTime, playTime);
+    update();
   };
 
   const update = () => {
-    // requestAnimationFrame(update);
-    if (!isPlaying) {
+    interval = setInterval(() => {
       setPlayTime((prev) => {
-        return actx.currentTime - prev;
+        return prev + 1;
       });
-    }
+    }, 1000);
+  };
+
+  const pauseHandle = () => {
+    clearInterval(interval);
   };
 
   return (
     <div>
       <p>文件名：{audioInfo.name}</p>
       <p>时长：{audioInfo.duration} s</p>
-      <p>{playTime} s</p>
       <FileInput onChange={fileChange}></FileInput>
-      <button onClick={clickHandle}>{isPlaying ? 'pause' : 'play'}</button>
+      <button onClick={playHandle} className="mr-6 p-2 px-4 rounded bg-blue-400 text-white">
+        play
+      </button>
+      <button onClick={pauseHandle} className="mr-6 p-2 px-4 rounded bg-blue-400 text-white">
+        pause
+      </button>
+      <span>{playTime} s</span>
+      <input type="range" max={audioInfo.duration} value={playTime.toString()} />
+      <span>{audioInfo.duration} s</span>
     </div>
   );
 }
