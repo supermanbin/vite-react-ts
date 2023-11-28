@@ -13,7 +13,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': _resolve('src'),
-    },
+          },
   },
   css: {
     postcss: {

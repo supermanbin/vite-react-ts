@@ -87,6 +87,9 @@ function App() {
         <li className="p-2" key="textcounters">
           <NavLink to={'/textcounters'}>Text Statistics</NavLink>
         </li>
+        <li className="p-2" key="leetcode">
+          <NavLink to={'/leet'}>Leet Code</NavLink>
+        </li>
       </ul>
     </div>
   );
