@@ -10,6 +10,7 @@ import AudioPlayer from '../pages/audioCut/AudioPlayer';
 import TextStatistics from '../pages/textStatistics/TextStatistics';
 import LeetCode from '../pages/leetCode/LeetCode';
 import ItTools from '../pages/itTools';
+import TokenGenerator from '../pages/itTools/tools/tokenGenerator/TokenGenerator';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,12 @@ const router = createBrowserRouter([
     path: '/tools',
     element: <ItTools />,
     errorElement: <Error />,
+    children: [
+      {
+        path: 'token-generator',
+        element: <TokenGenerator />,
+      },
+    ],
   },
   {
     path: '/',
