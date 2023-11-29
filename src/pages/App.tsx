@@ -90,6 +90,9 @@ function App() {
         <li className="p-2" key="leetcode">
           <NavLink to={'/leet'}>Leet Code</NavLink>
         </li>
+        <li className="p-2" key="itTools">
+          <NavLink to={'/tools'}>IT Tools</NavLink>
+        </li>
       </ul>
     </div>
   );

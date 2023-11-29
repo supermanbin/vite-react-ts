@@ -7,6 +7,7 @@ export default function TextStatistics() {
   const handleChange = (e) => {
     const a = twitter.parseTweet(e.target.value);
     console.log(a);
+    setWord(e.target.value);
   };
   return (
     <div>

@@ -9,6 +9,7 @@ import AudioCut from '../pages/audioCut/AudioCut';
 import AudioPlayer from '../pages/audioCut/AudioPlayer';
 import TextStatistics from '../pages/textStatistics/TextStatistics';
 import LeetCode from '../pages/leetCode/LeetCode';
+import ItTools from '../pages/itTools';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
   {
     path: '/leet',
     element: <LeetCode />,
+    errorElement: <Error />,
+  },
+  {
+    path: '/tools',
+    element: <ItTools />,
     errorElement: <Error />,
   },
   {
