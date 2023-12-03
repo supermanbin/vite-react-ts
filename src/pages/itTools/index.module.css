@@ -1,0 +1,6 @@
+.left-pannel {
+    flex-basis: 200px;
+}
+.content {
+    flex-grow: 1;
+}
