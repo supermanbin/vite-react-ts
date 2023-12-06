@@ -1,3 +1,12 @@
 .menu-item {
-    @apply flex;
+    @apply flex px-3 h-11 items-center text-sm rounded-md transition-colors mb-2 duration-300;
+}
+.menu-item:hover {
+    @apply bg-lime-400 text-white;
+}
+.menu-item span {
+    @apply rounded-full bg-lime-400 w-8 h-8 flex justify-center items-center mr-3 text-white transition-colors duration-300;
+}
+.menu-item:hover span{
+    @apply bg-lime-400 bg-white text-lime-400;
 }

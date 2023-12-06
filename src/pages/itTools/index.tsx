@@ -5,9 +5,12 @@ import style from './index.module.css';
 export default function ItTools() {
   return (
     <div className="flex">
-      <nav className="basis-48">
-        <Menu />
-      </nav>
+      <div className={style['left-pannel']}>
+        <nav className="basis-48">
+          <Menu />
+        </nav>
+      </div>
+
       <main className={style.content}>
         <Outlet />
       </main>

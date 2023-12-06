@@ -5,13 +5,18 @@ export default function Menu() {
   return (
     <ul>
       <li>
-        <NavLink className="flex px-2 h-11 items-center hover:bg-gray-200" to="token-generator">
-          <span className="rounded-full bg-lime-400 w-6 h-6 text-center mr-3 text-sm">T</span>Token Generator
+        <NavLink className={menu['menu-item']} to="token-generator">
+          <span className="">T</span>Token Generator
         </NavLink>
       </li>
       <li>
-        <NavLink className="flex px-2 h-11 items-center hover:bg-gray-200" to="token-generator">
-          <span className="rounded-full bg-lime-400 w-6 h-6 text-center mr-3">H</span>Hash Text
+        <NavLink className={menu['menu-item']} to="hash-text">
+          <span className="">H</span>Hash Text
+        </NavLink>
+      </li>
+      <li>
+        <NavLink className={menu['menu-item']} to="bcrypt">
+          <span className="">B</span>Bcrypt
         </NavLink>
       </li>
     </ul>

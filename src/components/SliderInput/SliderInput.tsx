@@ -1,4 +1,3 @@
-import firefox from '../../assets/img/firefox-logo.svg';
 import { ChangeEvent, useState } from 'react';
 
 type ParameterType = {
