@@ -5,6 +5,7 @@ export type checkboxPropsType = {
   htmlFor?: string;
   label?: string;
   name?: string;
+  className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 export default function Checkbox({ htmlFor, label, name, onChange, ...props }: checkboxPropsType) {
@@ -13,7 +14,14 @@ export default function Checkbox({ htmlFor, label, name, onChange, ...props }: c
   };
   return (
     <div className={style['wrapper']}>
-      <input className={style['checkbox']} type="checkbox" name={name} id={htmlFor} onChange={changeHandel} />
+      <input
+        {...props}
+        className={style['checkbox']}
+        type="checkbox"
+        name={name}
+        id={htmlFor}
+        onChange={changeHandel}
+      />
       {label && (
         <label className={style['label']} htmlFor={htmlFor}>
           {label}

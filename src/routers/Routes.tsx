@@ -11,6 +11,7 @@ import TextStatistics from '../pages/textStatistics/TextStatistics';
 import LeetCode from '../pages/leetCode/LeetCode';
 import ItTools from '../pages/itTools';
 import TokenGenerator from '../pages/itTools/tools/tokenGenerator/TokenGenerator';
+import FightLandlords from '../pages/game/FightLandlords';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: 'token-generator',
         element: <TokenGenerator />,
+      },
+      {
+        path: 'fight',
+        element: <FightLandlords />,
       },
     ],
   },

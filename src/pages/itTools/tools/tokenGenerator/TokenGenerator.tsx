@@ -24,7 +24,7 @@ export default function TokenGenerator() {
       <Checkbox label="Numbers" htmlFor="Numbers" name="numbers" onChange={onChangeHandle} />
       <Checkbox label="Lowercase" htmlFor="Lowercase" name="lowercase" onChange={onChangeHandle} />
       <Checkbox label="Symbols" htmlFor="Symbols" name="symbols" onChange={onChangeHandle} />
-      <label htmlFor="Length">
+      <label htmlFor="Length" className={style['']}>
         <span>Length{values.length}</span>
         <input type="range" name="length" id="Length" defaultValue={1} min={1} max={512} onChange={onChangeHandle} />
       </label>

@@ -1,14 +1,1 @@
-.left-pannel {
-    @apply basis-52 h-screen shadow-xl p-2 absolute bg-white overflow-y-auto;
-}
-.content {
-    flex-grow: 1;
-    @apply pl-52;
-}
-.checkbox {
-    appearance: none;
-    @apply w-4 h-4 border-2  rounded;
-}
-.checkbox:checked {
-    @apply bg-lime-400 ring-2 ring-lime-400 ring-offset-2;
-}
+

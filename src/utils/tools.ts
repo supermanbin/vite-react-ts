@@ -11,3 +11,13 @@ export function getRandomIntArray(min: number, max: number, length: number): num
   }
   return randomArray;
 }
+
+export function getNoRepeatRandomIntArray(min: number, max: number, length: number): any {
+  const mySet = new Set();
+  let array: any = [];
+  while (array.length < length) {
+    mySet.add(getRandomInt(min, max));
+    array = Array.from(mySet);
+  }
+  return array;
+}

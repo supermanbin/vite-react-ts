@@ -7,7 +7,7 @@
 .checkbox {
     appearance: none;
     box-sizing: border-box;
-    @apply w-4 h-4 border border-blue-600 rounded;
+    @apply w-4 h-4 border border-blue-600 rounded mr-2;
 }
 .checkbox:checked {
     @apply bg-blue-600 bg-no-repeat bg-center;
