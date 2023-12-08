@@ -1,80 +1,15 @@
-import { getNoRepeatRandomIntArray } from '@/utils/tools';
+import { CardType, getNoRepeatRandomIntArray, initCard } from '@/utils/tools';
 import { useState } from 'react';
 import Card from './Card';
 
-const deck: any = [
-  ['JOKER'],
-  ['joker'],
-  ['♠', 'A'],
-  ['♠', 2],
-  ['♠', 3],
-  ['♠', 4],
-  ['♠', 5],
-  ['♠', 6],
-  ['♠', 7],
-  ['♠', 8],
-  ['♠', 9],
-  ['♠', 10],
-  ['♠', 'J'],
-  ['♠', 'Q'],
-  ['♠', 'K'],
-  ['♥', 'A'],
-  ['♥', 2],
-  ['♥', 3],
-  ['♥', 4],
-  ['♥', 5],
-  ['♥', 6],
-  ['♥', 7],
-  ['♥', 8],
-  ['♥', 9],
-  ['♥', 10],
-  ['♥', 'J'],
-  ['♥', 'Q'],
-  ['♥', 'K'],
-  ['♣', 'A'],
-  ['♣', 2],
-  ['♣', 3],
-  ['♣', 4],
-  ['♣', 5],
-  ['♣', 6],
-  ['♣', 7],
-  ['♣', 8],
-  ['♣', 9],
-  ['♣', 10],
-  ['♣', 'J'],
-  ['♣', 'Q'],
-  ['♣', 'K'],
-  ['♦', 'A'],
-  ['♦', 2],
-  ['♦', 3],
-  ['♦', 4],
-  ['♦', 5],
-  ['♦', 6],
-  ['♦', 7],
-  ['♦', 8],
-  ['♦', 9],
-  ['♦', 10],
-  ['♦', 'J'],
-  ['♦', 'Q'],
-  ['♦', 'K'],
-];
+const deck = initCard();
 
 export default function FightLandlords() {
   const [playerA, setPlayerA] = useState([]);
   const [playerB, setPlayerB] = useState([]);
   const [playerC, setPlayerC] = useState([]);
+  const [last3, setLast3] = useState([]);
   const playCard = () => {
-    // 初始化一副牌
-    // const flowers = ['♠', '♥', '♣', '♦'];
-    // const cardNum = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
-    // const deck = [['JOKER'], ['joker']];
-    // for (let i = 0; i < flowers.length; i++) {
-    //   for (let j = 0; j < cardNum.length; j++) {
-    //     deck.push([flowers[i], cardNum[j]]);
-    //   }
-    // }
-    // console.log(deck);
-
     // 角色
     const playerA: any = [];
     const playerB: any = [];
@@ -101,28 +36,40 @@ export default function FightLandlords() {
         }
       }
     }
-    setPlayerA(playerA);
-    setPlayerB(playerB);
-    setPlayerC(playerC);
+    setPlayerA(playerA.sort(sortCard));
+    setPlayerB(playerB.sort(sortCard));
+    setPlayerC(playerC.sort(sortCard));
+    setLast3(last3Card);
   };
+
+  // 对随机的发牌进行排序
+  const sortCard = (a: CardType, b: CardType) => {
+    return b.realNum - a.realNum;
+  };
+
   return (
     <div>
       <button onClick={playCard} className="rounded p-2 border mr-3">
         发牌
       </button>
       <div className="flex">
-        {playerA.map((item) => (
-          <Card key={`${item[0]}-${item[1]}`} flower={item[0]} num={item.length > 1 && item[1]} />
+        {playerA.map((item: CardType) => (
+          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
         ))}
       </div>
       <div className="flex">
-        {playerB.map((item) => (
-          <Card key={`${item[0]}-${item[1]}`} flower={item[0]} num={item.length > 1 && item[1]} />
+        {playerB.map((item: CardType) => (
+          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
         ))}
       </div>
       <div className="flex">
-        {playerC.map((item) => (
-          <Card key={`${item[0]}-${item[1]}`} flower={item[0]} num={item.length > 1 && item[1]} />
+        {playerC.map((item: CardType) => (
+          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
+        ))}
+      </div>
+      <div className="flex">
+        {last3.map((item: CardType) => (
+          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
         ))}
       </div>
     </div>
