@@ -28,6 +28,10 @@ export type CardType = {
   realNum: number;
 };
 
+/**
+ * 初始化一副54张的扑克
+ * @return 按顺序返回扑克牌 [Joker, JOKER, 3, 4]
+ */
 export function initCard(): CardType[] {
   // 初始化一副牌
   const flowers = ['♠', '♥', '♣', '♦'];
@@ -70,9 +74,8 @@ export function initCard(): CardType[] {
         default:
           card.showCard = real.toString();
       }
-      deck.push(card);
+      deck.unshift(card);
     }
   }
-
   return deck;
 }

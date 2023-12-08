@@ -47,14 +47,25 @@ export default function FightLandlords() {
     return b.realNum - a.realNum;
   };
 
+  const cardClickHandle = (item: CardType, index: number) => {
+    console.log(item, index);
+  };
+
   return (
     <div>
       <button onClick={playCard} className="rounded p-2 border mr-3">
         发牌
       </button>
       <div className="flex">
-        {playerA.map((item: CardType) => (
-          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
+        {playerA.map((item: CardType, index: number) => (
+          <Card
+            onClick={() => {
+              cardClickHandle(item, index);
+            }}
+            key={`${item.flower}-${item.realNum}`}
+            flower={item.flower}
+            showCard={item.showCard}
+          />
         ))}
       </div>
       <div className="flex">
