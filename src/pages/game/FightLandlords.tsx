@@ -1,15 +1,16 @@
-import { CardType, getNoRepeatRandomIntArray, initCard } from '@/utils/tools';
+import { CardType, getNoRepeatRandomIntArray, getRandomInt, initCard } from '@/utils/tools';
 import { useState } from 'react';
 import Card from './Card';
 
 const deck = initCard();
 
 export default function FightLandlords() {
-  const [playerA, setPlayerA] = useState([]);
-  const [playerB, setPlayerB] = useState([]);
-  const [playerC, setPlayerC] = useState([]);
-  const [last3, setLast3] = useState([]);
-  const playCard = () => {
+  const [playerA, setPlayerA] = useState({ lord: false, cards: [] });
+  const [playerB, setPlayerB] = useState({ lord: false, cards: [] });
+  const [playerC, setPlayerC] = useState({ lord: false, cards: [] });
+
+  // 发牌
+  const dealt = () => {
     // 角色
     const playerA: any = [];
     const playerB: any = [];
@@ -18,6 +19,8 @@ export default function FightLandlords() {
     const last3Card: any = [];
     // 0 ~ 53不重复的随机数，用于洗牌
     const randomAry = getNoRepeatRandomIntArray(0, 54, 54);
+    // 随机分配地主：0:A 1:B 2:C
+    const randomLord = getRandomInt(0, 3);
 
     // 发牌
     for (let i = 0; i < randomAry.length; i++) {
@@ -36,10 +39,21 @@ export default function FightLandlords() {
         }
       }
     }
-    setPlayerA(playerA.sort(sortCard));
-    setPlayerB(playerB.sort(sortCard));
-    setPlayerC(playerC.sort(sortCard));
-    setLast3(last3Card);
+
+    console.log(randomLord);
+    // Todo: 给地主多发3张牌
+    setPlayerA({
+      lord: randomLord === 0,
+      cards: playerA.sort(sortCard),
+    });
+    setPlayerB({
+      lord: randomLord === 1,
+      cards: playerB.sort(sortCard),
+    });
+    setPlayerC({
+      lord: randomLord === 2,
+      cards: playerC.sort(sortCard),
+    });
   };
 
   // 对随机的发牌进行排序
@@ -51,37 +65,82 @@ export default function FightLandlords() {
     console.log(item, index);
   };
 
+  const role = () => {
+    //
+    //
+  };
+
   return (
     <div>
-      <button onClick={playCard} className="rounded p-2 border mr-3">
+      <button onClick={dealt} className="rounded p-2 border mr-2">
         发牌
       </button>
-      <div className="flex">
-        {playerA.map((item: CardType, index: number) => (
-          <Card
-            onClick={() => {
-              cardClickHandle(item, index);
-            }}
-            key={`${item.flower}-${item.realNum}`}
-            flower={item.flower}
-            showCard={item.showCard}
-          />
-        ))}
+      <div className="flex flex-col">
+        <div className="flex">
+          {playerA.cards.map((item: CardType, index: number) => (
+            <Card
+              onClick={() => {
+                cardClickHandle(item, index);
+              }}
+              key={`${item.flower}-${item.realNum}`}
+              flower={item.flower}
+              showCard={item.showCard}
+            />
+          ))}
+        </div>
+        <div className="flex mt-2">
+          <button className="rounded p-2 border mr-2" disabled={!playerA.lord}>
+            叫地主
+          </button>
+          <button className="rounded p-2 border mr-2 disabled:bg-gray-200" disabled>
+            出牌
+          </button>
+        </div>
       </div>
-      <div className="flex">
-        {playerB.map((item: CardType) => (
-          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
-        ))}
+      <div className="flex flex-col">
+        <div className="flex justify-end">
+          {playerB.cards.map((item: CardType, index: number) => (
+            <Card
+              onClick={() => {
+                cardClickHandle(item, index);
+              }}
+              key={`${item.flower}-${item.realNum}`}
+              flower={item.flower}
+              showCard={item.showCard}
+            />
+          ))}
+        </div>
+        <div className="flex justify-end mt-2">
+          <button className="rounded p-2 border ml-2" disabled={!playerB.lord}>
+            叫地主
+          </button>
+          <button className="rounded p-2 border ml-2 disabled:bg-gray-200" disabled>
+            出牌
+          </button>
+        </div>
       </div>
-      <div className="flex">
-        {playerC.map((item: CardType) => (
-          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
-        ))}
-      </div>
-      <div className="flex">
-        {last3.map((item: CardType) => (
-          <Card key={`${item.flower}-${item.realNum}`} flower={item.flower} showCard={item.showCard} />
-        ))}
+
+      <div className="flex flex-col">
+        <div className="flex justify-center">
+          {playerC.cards.map((item: CardType, index: number) => (
+            <Card
+              onClick={() => {
+                cardClickHandle(item, index);
+              }}
+              key={`${item.flower}-${item.realNum}`}
+              flower={item.flower}
+              showCard={item.showCard}
+            />
+          ))}
+        </div>
+        <div className="flex justify-center mt-2">
+          <button className="rounded p-2 border mr-2" disabled={!playerC.lord}>
+            叫地主
+          </button>
+          <button className="rounded p-2 border mr-2 disabled:bg-gray-200" disabled>
+            出牌
+          </button>
+        </div>
       </div>
     </div>
   );

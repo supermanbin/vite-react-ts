@@ -79,3 +79,26 @@ export function initCard(): CardType[] {
   }
   return deck;
 }
+
+type GenerateTokenType = {
+  uppercase?: boolean;
+  lowercase?: boolean;
+  numeric?: boolean;
+  symbols?: boolean;
+  length?: number;
+};
+export default class Tools {
+  constructor() {}
+  generateToken({
+    uppercase = true,
+    lowercase = true,
+    numeric = false,
+    symbols = false,
+    length = 16,
+    ...options
+  }: GenerateTokenType) {
+    const word: string = 'abcdefghijklmnopqrstuvwxyz';
+    const num: string = '0123456789';
+    const special: string = '.,;:!?./-"\'#{([-|\\\\@)]=} * +';
+  }
+}
