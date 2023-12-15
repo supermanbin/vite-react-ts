@@ -20,7 +20,7 @@ export default function Card({ flower, showCard, ...props }: CardProppType | any
       onClick={onClickHandle}
     >
       <span className={`absolute top-1 left-1`}>{flower === 'Joker' || flower === 'JOKER' || flower}</span>
-      <strong className={`text-${flower === 'Joker' || flower === 'JOKER' ? '' : '3'}xl`}>{showCard}</strong>
+      <strong className={`${flower === 'Joker' || flower === 'JOKER' ? '' : 'text-3xl'}`}>{showCard}</strong>
     </div>
   );
 }
