@@ -1085,6 +1085,11 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dragselect@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/dragselect/-/dragselect-3.0.4.tgz#85974e42c8e21e32233796373dbfd667d76e9420"
+  integrity sha512-LkGjPpkBGsIFyM9UsOM0wkMhUHuwhlHCDouufy2Zyroghhoj0RHSXnl78imvDWdlvFUk3Q5SXTXh0HfAC/NMrw==
+
 electron-to-chromium@^1.4.284:
   version "1.4.350"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.350.tgz#11aae65e0d8b49626c7f298ac577b7b350b007ae"
