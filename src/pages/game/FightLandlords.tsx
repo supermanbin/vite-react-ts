@@ -1,5 +1,5 @@
 import { CardType, getNoRepeatRandomIntArray, getRandomInt, initCard } from '@/utils/tools';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from './Card';
 
 const deck = initCard();
@@ -8,7 +8,12 @@ export default function FightLandlords() {
   const [playerA, setPlayerA] = useState({ lord: false, cards: [] });
   const [playerB, setPlayerB] = useState({ lord: false, cards: [] });
   const [playerC, setPlayerC] = useState({ lord: false, cards: [] });
-
+  let randomLord = -1;
+  useEffect(() => {
+    // 随机分配地主：0:A 1:B 2:C
+    randomLord = getRandomInt(0, 3);
+    console.log(randomLord);
+  }, []);
   // 发牌
   const dealt = () => {
     // 角色
@@ -19,8 +24,7 @@ export default function FightLandlords() {
     const last3Card: any = [];
     // 0 ~ 53不重复的随机数，用于洗牌
     const randomAry = getNoRepeatRandomIntArray(0, 54, 54);
-    // 随机分配地主：0:A 1:B 2:C
-    const randomLord = getRandomInt(0, 3);
+
     // 发牌
     for (let i = 0; i < randomAry.length; i++) {
       const distribute = i % 3;
@@ -39,17 +43,6 @@ export default function FightLandlords() {
       }
     }
 
-    switch (randomLord) {
-      case 0:
-        playerA.push(...last3Card);
-        break;
-      case 1:
-        playerB.push(...last3Card);
-        break;
-      case 2:
-        playerC.push(...last3Card);
-        break;
-    }
     setPlayerA({
       lord: randomLord === 0,
       cards: playerA.sort(sortCard),
@@ -73,9 +66,22 @@ export default function FightLandlords() {
     console.log(item, index);
   };
 
-  const role = () => {
-    //
-    //
+  const callLord = () => {
+    if (playerA.lord) {
+      setPlayerA((prevState) => ({ ...prevState, lord: false }));
+      setPlayerB((prevState) => ({ ...prevState, lord: true }));
+      setPlayerC((prevState) => ({ ...prevState, lord: false }));
+    }
+    if (playerB.lord) {
+      setPlayerA((prevState) => ({ ...prevState, lord: false }));
+      setPlayerB((prevState) => ({ ...prevState, lord: false }));
+      setPlayerC((prevState) => ({ ...prevState, lord: true }));
+    }
+    if (playerC.lord) {
+      setPlayerA((prevState) => ({ ...prevState, lord: true }));
+      setPlayerB((prevState) => ({ ...prevState, lord: false }));
+      setPlayerC((prevState) => ({ ...prevState, lord: false }));
+    }
   };
 
   return (
@@ -97,7 +103,11 @@ export default function FightLandlords() {
           ))}
         </div>
         <div className="flex mt-2">
-          <button className={`rounded p-2 border mr-2 ${!playerA.lord ? 'bg-gray-200' : ''}`} disabled={!playerA.lord}>
+          <button
+            className={`rounded p-2 border mr-2 ${!playerA.lord ? 'bg-gray-200' : ''}`}
+            disabled={!playerA.lord}
+            onClick={callLord}
+          >
             叫地主
           </button>
           <button className="rounded p-2 border mr-2 disabled:bg-gray-200" disabled>
@@ -119,7 +129,11 @@ export default function FightLandlords() {
           ))}
         </div>
         <div className="flex justify-end mt-2">
-          <button className={`rounded p-2 border mr-2 ${!playerB.lord ? 'bg-gray-200' : ''}`} disabled={!playerB.lord}>
+          <button
+            className={`rounded p-2 border mr-2 ${!playerB.lord ? 'bg-gray-200' : ''}`}
+            disabled={!playerB.lord}
+            onClick={callLord}
+          >
             叫地主
           </button>
           <button className="rounded p-2 border ml-2 disabled:bg-gray-200" disabled>
@@ -142,7 +156,11 @@ export default function FightLandlords() {
           ))}
         </div>
         <div className="flex justify-center mt-2">
-          <button className={`rounded p-2 border mr-2 ${!playerC.lord ? 'bg-gray-200' : ''}`} disabled={!playerC.lord}>
+          <button
+            className={`rounded p-2 border mr-2 ${!playerC.lord ? 'bg-gray-200' : ''}`}
+            disabled={!playerC.lord}
+            onClick={callLord}
+          >
             叫地主
           </button>
           <button className="rounded p-2 border mr-2 disabled:bg-gray-200" disabled>
